@@ -1,0 +1,38 @@
+{
+  "name": "03-node-only-render-html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@kernel-js/support": "^2.2.1",
+    "@tensorflow-models/qna": "^1.0.0",
+    "@tensorflow/tfjs-converter": "^2.8.3",
+    "@tensorflow/tfjs-core": "^2.8.3",
+    "@tensorflow/tfjs-node": "^2.8.3",
+    "@tensorflow/tfjs-node-gpu": "^2.8.3",
+    "body-parser": "^1.19.0",
+    "brain.js": "^2.0.0-beta.2",
+    "brainjs": "^0.7.4",
+    "compression": "^1.7.4",
+    "decision-tree": "^0.3.1",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "i": "^0.3.6",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.4.0",
+    "kernel": "^0.1.4",
+    "limdu": "^0.9.4",
+    "natural": "^2.4.5",
+    "nodemon": "^2.0.7",
+    "p5": "^1.2.0",
+    "require": "^2.4.20",
+    "utils": "^0.3.1"
+  }
+}

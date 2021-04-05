@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head.ejs'); %>
+</head>
+
+<body onload="get(), $('.center').hide()" class="container">
+
+<header>
+    <%- include('../partials/header.ejs'); %>
+</header>
+
+<main>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <script type="application/json" src="/vatRates.json"></script>
+    <script type="application/json" src="/hsDataset.json"></script>
+    <script type="text/javascript">
+
+        let membersArray = [];
+        let dutiesArray = []; ////
+        let dropdown = $('#states-dropdown');
+
+        $.getJSON("vatRates.json", function(json) {
+            console.log(json); 
+            $.each(json, function(i, item){
+                membersArray.push(json[i]);
+            });
+        });
+
+        /////
+        $.getJSON("dutyRates.json", function(json) { //
+            console.log(json);                       //
+            $.each(json, function(i, item){          //
+                dutiesArray.push(json[i]);           //
+            });                                      //
+        });                                          //
+        /////
+
+        function get(){
+            $('#section').html('');
+            $('#sectionNote').html('');
+            $('#entityDescription').html('');
+            $('#cnData').html('');
+            $('#vat').html('');
+            //$('.center').hide(''); /// Hide Circle Percentages
+            $('#vat').hide();
+            $('#customs').hide();
+            $('#mfncustoms').hide();
+            $('#miningStats').hide();
+
+            var select = document.getElementById("states-dropdown");
+            select.length = 0;
+            let defaultOption = document.createElement('option');
+            defaultOption.text = 'Choose EU Member State';
+            defaultOption.value = 'def';
+            select.add(defaultOption);
+            select.selectedIndex = 0;
+
+            for(let i=0; i<membersArray.length;i++){
+                let option = document.createElement('option');
+                option.text = membersArray[i].memberState;
+                option.value = membersArray[i].memberCode;
+                select.add(option);
+            }
+
+            $(function() {
+                if (localStorage.getItem('form_frame')) {
+                    $("#states-dropdown option").eq(localStorage.getItem('form_frame')).prop('selected', true);
+                }
+            
+                $("#states-dropdown").on('change', function() {
+                    localStorage.setItem('form_frame', $('option:selected', this).index());
+                });
+            });
+        }
+
+        var countryCode, countryTitle, countryParams;
+        $(document).ready(function(){
+
+            $('select').on('change', function() {
+                localStorage.setItem('preservedSelect', $('option:selected', this).index());
+                countryCode = JSON.stringify(this.value);
+                countryTitle = $("select option:selected").text();
+                countryParams = {cCode: countryCode, cTitle: countryTitle};
+            });
+        });
+
+
+        var sectionLabel; ///
+        var dutyAmount; ///
+        var mfnDuty; ///
+
+        function getEntity(){
+            $('#container').hide();
+
+            var inputValue = document.getElementById('hs').value;
+                if (inputValue == ''){
+                    var parameters = { input: ''};
+                } else {
+                    var parameters = { input: inputValue};
+                }
+
+                if(document.getElementById('states-dropdown').selectedIndex == 0){
+                    countryCode = 'undefined';
+                    countryTitle = 'undefined';
+                    countryParams = {cCode: countryCode, cTitle: countryTitle};
+                } else {
+                    countryCode = $("select option:selected").val();
+                    countryTitle = $("select option:selected").text();
+                    countryParams = {cCode: countryCode, cTitle: countryTitle};
+                }
+                
+                    ///...
+                    var chapterIdentifier = parseInt(inputValue.substring(0,2));
+                    var headingIdentifier = parseInt(inputValue.substring(0,4)); //
+                    switch(true){
+                        case (chapterIdentifier >= 1 && chapterIdentifier <= 5):
+                            sectionLabel = 'SECTION I - Live animals;animal products';
+                            break;
+                        case (chapterIdentifier >= 6 && chapterIdentifier <= 14):
+                            sectionLabel = 'SECTION II - Vegetable Products';
+                            break;
+                        case (chapterIdentifier == 15):
+                            sectionLabel = 'SECTION III - Animal or vegetable fats and oils and their cleavage products; prepared edible fats; animal or vegetable waxes';
+                            break;
+                        case (chapterIdentifier >= 16 && chapterIdentifier <= 24):
+                            sectionLabel = 'SECTION IV - Prepared foodstuffs; beverages, spirits and vinegar; tobacco and manufactured tobacco substitutes';
+                            break;
+                        case (chapterIdentifier >= 25 && chapterIdentifier <= 27):
+                            sectionLabel = 'SECTION V - Mineral Products';
+                            break;
+                        case (chapterIdentifier >= 28 && chapterIdentifier <= 38):
+                            sectionLabel = 'SECTION VI - Products of the chemical or allied industries';
+                            break;
+                        case (chapterIdentifier >= 39 && chapterIdentifier <= 40):
+                            sectionLabel = 'SECTION VII - Plastics and articles thereof; rubber and articles thereof';
+                            break;
+                        case (chapterIdentifier >= 41 && chapterIdentifier <= 43):
+                            sectionLabel = 'SECTION VIII - Raw hides and skins, leather, furskins and articles thereof; saddlery and harness; travel goods, handbags and similar containers; articles of animal gut (other than silkworm gut)';
+                            break;
+                        case (chapterIdentifier >= 44 && chapterIdentifier <= 46):
+                            sectionLabel = 'SECTION IX - Wood and articles of wood; wood charcoal; cork and articles of cork; manufactures of straw, of esparto or of other plaiting materials; basketware and wickerwork';
+                            break;
+                        case (chapterIdentifier >= 47 && chapterIdentifier <= 49):
+                            sectionLabel = 'SECTION X - Pulp of wood or of other fibrous cellulosic material; recovered (waste and scrap) paper or paperboard; paper and paperboard and articles thereof';
+                            break;
+                        case (chapterIdentifier >= 50 && chapterIdentifier <= 63):
+                            sectionLabel = 'SECTION XI - Textiles and textile articles';
+                            break;
+                        case (chapterIdentifier >= 64 && chapterIdentifier <= 67):
+                            sectionLabel = 'SECTION XII - Footwear, headgear, umbrellas, sun umbrellas, walking sticks, seat-sticks, whips, riding-crops and parts thereof; prepared feathers and articles made therewith; artificial flowers; articles of human hair';
+                            break;
+                        case (chapterIdentifier >= 68 && chapterIdentifier <= 70):
+                            sectionLabel = 'SECTION XIII - Articles of stone, plaster, cement, asbestos, mica or similar materials; ceramic products; glass and glassware';
+                            break;
+                        case (chapterIdentifier == 71):
+                            sectionLabel = 'SECTION XIV - Natural or cultured pearls, precious or semi-precious stones, precious metals, metals clad with precious metal, and articles thereof; imitation jewellery; coin';
+                            break;
+                        case (chapterIdentifier >= 72 && chapterIdentifier <= 83):
+                            sectionLabel = 'SECTION XV - Base metals and articles of base metal';
+                            break;
+                        case (chapterIdentifier >= 84 && chapterIdentifier <= 85):
+                            sectionLabel = 'SECTION XVI - Machinery and mechanical appliances; electrical equipment; parts thereof; sound recorders and reproducers, television image and sound recorders and reproducers, and parts and accessories of such articles';
+                            break;
+                        case (chapterIdentifier >= 86 && chapterIdentifier <= 89):
+                            sectionLabel = 'SECTION XVII - Vehicles, aircraft, vessels and associated transport equipment';
+                            break;
+                        case (chapterIdentifier >= 90 && chapterIdentifier <= 92):
+                            sectionLabel = 'SECTION XVIII - Optical, photographic, cinematographic, measuring, checking, precision, medical or surgical instruments and apparatus; clocks and watches; musical instruments; parts and accessories thereof';
+                            break;
+                        case (chapterIdentifier == 93):
+                            sectionLabel = 'SECTION XIX - Arms and ammunition; parts and accessories thereof';
+                            break;
+                        case (chapterIdentifier >= 94 && chapterIdentifier <= 96):
+                            sectionLabel = 'SECTION XX - Miscellaneous manufactured articles';
+                            break;
+                        case (chapterIdentifier >= 96 && chapterIdentifier <= 99):
+                            sectionLabel = 'SECTION XXI - Works of art, collectors pieces and antiques';
+                            break;
+                        default:
+                            sectionLabel = 'UNALLOCATED SECTION';
+                            break;
+                        }
+                        console.log(sectionLabel); ///
+                         ///...
+
+                        ///////////////////////////////////////
+                         for(let i=0; i<dutiesArray.length;i++){
+                             for(let j=0; j<dutiesArray[i].nomenclature.length; j++){
+                                 if(chapterIdentifier == dutiesArray[i].nomenclature[j]  || headingIdentifier == dutiesArray[i].nomenclature[j] || inputValue == dutiesArray[i].nomenclature[j]){
+                                    dutyAmount = dutiesArray[i].avgDuty;
+                                    mfnDuty = dutiesArray[i].mfnAvgDuty;
+                                 }
+                             }
+                         } console.log(dutyAmount);
+                         //////////////////////////////////////
+
+
+                var sectionParam = {sectionP: sectionLabel};
+                var dutyParams = {duty: dutyAmount, mfnAvgDuty: mfnDuty}; //
+                var allParams = {...parameters, ...countryParams, ...sectionParam, ...dutyParams};
+
+                $.post('/endpoint', allParams, function(data){
+                    console.log(data);
+                    $("#container").load(location.href + " #container");
+                });
+
+                $('.loader').show();
+
+                setTimeout(function(){
+                    $('.loader').hide();
+                    $('#container').show();
+                    $('#miningStats').show();
+                    $('.center').show(); /// Show Circle Percentages
+                }, 8000);
+        }
+
+        $(document).ready(function(){
+            $('a').click(function(){
+                //console.log($(this).text());
+                var clicked = $(this).text();
+                //$('#hs').val(clicked);
+                var inputParam = {userInput: clicked};
+
+                $.post('/input', inputParam, function(data){
+                    console.log(data);
+                    $('#hs').val('Searching.').show().fadeIn('slow'); //
+                    setTimeout(function(){
+                        $('#hs').val('Searching..').show().fadeIn('slow'); //
+                    }, 300);
+
+                    setTimeout(function(){
+                        $('#hs').val('Searching...').show().fadeIn('slow'); //
+                    }, 600);
+
+                    setTimeout(function(){
+                        $('#hs').val('Searching....').show().fadeIn('slow'); //
+                    }, 900);
+
+                    setTimeout(function(){
+                        $('#hs').val('Searching.....').show().fadeIn('slow'); //
+                    }, 1200);
+
+                    setTimeout(function(){
+                        $("#inputSection").load(location.href + " #inputSection");
+                    }, 1500);
+
+                    
+                });
+                
+            });
+        });
+
+        (function(){
+            document.getElementById("hs").value = "";
+        })
+
+
+
+
+
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/circle.css" />
+    <div class="jumbotron">
+        <h3><center>Harmonized Commodity Description and Coding System Entity Allocation</center></h3>
+        <hr>
+        <h5>Search for a product</h5>
+
+
+        <div id='inputSection'>
+            <input id="hs" value="<%- data.inputField %>" name="codeInput" placeholder="HS Code...">
+            <button id="allocate" onclick="getEntity()">Allocate</button>
+        </div>
+        
+        <!-- 
+        <div id="tagcloud">
+            <a href="#" class="tag"   ><span>Cotton T-Shirt</span></a>
+            <a href="#" class="tag"   ><span>Denim Jeans</span></a>
+            <a href="#" class="tag"   ><span>Digital Camera</span></a>
+            <a href="#" class="tag"   ><span>Car Engine</span></a>
+            <a href="#" class="tag"   ><span>Wrist Watch</span></a>
+            <a href="#" class="tag"   ><span>Bananas</span></a>
+            <a href="#" class="tag"   ><span>Bicycle</span></a>
+            <a href="#" class="tag"   ><span>Binoculars</span></a>
+            <a href="#" class="tag"   ><span>Vitamins</span></a>
+            <a href="#" class="tag"   ><span>Opium</span></a>
+        </br>
+            <a href="#" class="tag"   ><span>Powder Graphite</span></a>
+            <a href="#" class="tag"   ><span>Tan Spray</span></a>
+        </div>
+        -->
+        
+            <ul id="menu">
+                <h5>Common Commodity Categories</h5>
+                <li class="parent"><a href="#" class="tag">Apparel & Accessories</a>
+                <ul class="child">
+                    <li class="parent"><a href="#" class="tag">Hair Accessories<span class="expand">»</span></a>
+                        <ul class="child">
+                         <li ><a href="#" class="tag">Plastic Comb</a></li>
+                         <li ><a href="#" class="tag">Pins</a></li>
+                         <li ><a href="#" class="tag">Shaving</a></li>
+                         <li ><a href="#" class="tag">Dryer</a></li>
+                        </ul>
+                    </li>
+                     <li ><a href="#" class="tag">Sunglasses</a></li>
+
+                     <li ><a href="#" class="tag">Hand Glove</a></li>
+                     <li ><a href="#" class="tag">Bags</a></li>
+                     <li ><a href="#" class="tag">Hats</a></li>
+                     <li ><a href="#" class="tag">Head Protection</a></li>
+
+                     <li ><a href="#" class="tag">Shoes</a></li>
+                     <li ><a href="#" class="tag">Socks</a></li>
+                     <li ><a href="#" class="tag">Stocking</a></li>
+
+                     <li ><a href="#" class="tag">Umbrella</a></li>
+                    <li class="parent"><a href="#" class="tag">Scarves & Veils<span class="expand">»</span></a>
+                        <ul class="child">
+                         <li ><a href="#" class="tag" nowrap>Knitted</a></li>
+                         <li ><a href="#" class="tag" nowrap>Silk</a></li>
+                         <li ><a href="#" class="tag" nowrap>Artificial</a></li>
+                        </ul>
+                    </li>
+                     <li ><a href="#" class="tag">Wrist Watch</a></li>
+                    
+                </ul>
+                </li>
+                <li class="parent"><a href="#" class="tag">Health & Personal Care</a>
+                <ul class="child">			
+                     <li ><a href="#" class="tag">Contact Lense</a></li>
+                     <li ><a href="#" class="tag">Face Mask</a></li>
+                     <li ><a href="#" class="tag">Candle</a></li>
+                     <li ><a href="#" class="tag">Mouthwash</a></li>
+                    <li class="parent"><a href="#" class="tag">Supplements<span class="expand">»</span></a>
+                        <ul class="child">
+                        <li ><a href="#" class="tag" nowrap>Synthetic</a></li>
+                         <li ><a href="#" class="tag" nowrap>Derivative</a></li>
+                         <li ><a href="#" class="tag" nowrap>Concentrate</a></li>
+                         <li ><a href="#" class="tag" nowrap>Whey Protein</a></li>
+                        </ul>
+                    </li>
+                     <li ><a href="#" class="tag">Perfumery</a></li>
+                </ul>
+                </li>
+                <li class="parent"><a href="#" class="tag">Office Products</a>
+                <ul class="child">			
+                    <li class="parent"><a href="#" class="tag">Cables <span class="expand">»</span></a>
+                        <ul class="child">
+                             <li ><a href="#" class="tag">Optical Cable</a></li>
+                        </ul>
+                    </li>
+                     <li ><a href="#" class="tag">Cordless Line Phone</a></li>
+                     <li ><a href="#" class="tag">Desk Lamp</a></li>
+                     <li ><a href="#" class="tag">Telephone Sets</a></li>
+                    <li class="parent"><a href="#" class="tag">Paper<span class="expand">»</span></a>
+                        <ul class="child">
+                             <li ><a href="#" class="tag">For Writing</a></li>
+                             <li ><a href="#" class="tag">Envelope</a></li>
+                             <li ><a href="#" class="tag">Handmade</a></li>
+                        </ul>
+                    </li>
+                    <li class="parent"><a href="#" class="tag">Postal Products<span class="expand">»</span></a>
+                        <ul class="child">
+                             <li ><a href="#" class="tag">Notepads</a></li>
+                             <li ><a href="#" class="tag">Postage</a></li>
+                             <li ><a href="#" class="tag">Paper Shredder</a></li>
+                             <li ><a href="#" class="tag">Business Forms</a></li>
+                             <li ><a href="#" class="tag">Equipment</a></li>
+                             <li ><a href="#" class="tag">Sorting</a></li>
+                             <li ><a href="#" class="tag">Stamps</a></li>
+                        </ul>
+                    </li>
+                     <li ><a href="#" class="tag">Typewriter</a></li>
+                     <li ><a href="#" class="tag">Calendar</a></li>
+                     <li ><a href="#" class="tag">Magazine</a></li>
+                     <li ><a href="#" class="tag">Fax</a></li>
+                     <li ><a href="#" class="tag">Calculator</a></li>
+                    <li class="parent"><a href="#" class="tag">Office Supplies<span class="expand">»</span></a>
+                        <ul class="child">
+                            <li class="parent"><a href="#" class="tag">Pens<span class="expand">»</span></a>
+                                <ul class="child">
+                                     <li ><a href="#" class="tag">Ball Point</a></li>
+                                     <li ><a href="#" class="tag">Felt Tip</a></li>
+                                     <li ><a href="#" class="tag">Stylograph</a></li>
+                                     <li ><a href="#" class="tag">Refill</a></li>
+                                     <li ><a href="#" class="tag">Pencil</a></li>
+                                </ul>
+                            </li>
+                             <li ><a href="#" class="tag">Lithium Battery</a></li>
+                             <li ><a href="#" class="tag">Binder</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                </li>
+                <li class="parent"><a href="">Appliances</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Dispenser</a></li>
+                        <li class="parent"><a href="#" class="tag">Torches<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Fire</a></li>
+                                 <li ><a href="#" class="tag">Electric</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Vacuum Cleaner</a></li>
+                         <li ><a href="#" class="tag">Fan</a></li>
+                         <li ><a href="#" class="tag">Flatiron</a></li>
+                         <li ><a href="#" class="tag">Audio Amplifier</a></li>
+                         <li ><a href="#" class="tag">Air Conditioner</a></li>
+                         <li ><a href="#" class="tag">Television</a></li>
+                        <li class="parent"><a href="#" class="tag">Audio Multimedia<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Sound System</a></li>
+                                 <li ><a href="#" class="tag">Speaker</a></li>
+                                 <li ><a href="#" class="tag">Wired</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Cloth</a></li>
+                         <li ><a href="#" class="tag">Washer</a></li>
+                         <li ><a href="#" class="tag">Refrigerator</a></li>
+                         <li ><a href="#" class="tag">Utility Tools</a></li>
+                    </ul>
+                </li>
+                <br><br>
+
+                <li class="parent"><a href="">Home & Kitchen</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Christmas Decorations</a></li>
+                         <li ><a href="#" class="tag">Stoves</a></li>
+                         <li ><a href="#" class="tag">Coffee-Tea Makers</a></li>
+                         <li ><a href="#" class="tag">Mixers</a></li>
+                         <li ><a href="#" class="tag">Toasters</a></li>
+                         <li ><a href="#" class="tag">Microwave</a></li>
+                         <li ><a href="#" class="tag">Dishwashers</a></li>
+                         <li ><a href="#" class="tag">Water Purifier</a></li>
+                         <li ><a href="#" class="tag">Utensils</a></li>
+                         <li ><a href="#" class="tag">Table Knives</a></li>
+                        <li class="parent"><a href="#" class="tag">Kitchen Tableware<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Kitchen Ceramicware</a></li>
+                                 <li ><a href="#" class="tag">Kitchen Glassware</a></li>
+                                 <li ><a href="#" class="tag">Steel Utensils</a></li>
+                                 <li ><a href="#" class="tag">Kitchen Copperware</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Scales</a></li>
+                         <li ><a href="#" class="tag">Alluminum Foil</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Industrial</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Storage Radiators</a></li>
+                        <li class="parent"><a href="#" class="tag">Cotton<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Non-Processed</a></li>
+                                 <li ><a href="#" class="tag">Linter</a></li>
+                                 <li ><a href="#" class="tag">Garnetted</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Rubber Pipes</a></li>
+                         <li ><a href="#" class="tag">Mechanical Woodpulps</a></li>
+                         <li ><a href="#" class="tag">Asphalt</a></li>
+                         <li ><a href="#" class="tag">Magnets</a></li>
+                         <li ><a href="#" class="tag">Granulated Iron</a></li>
+                         <li ><a href="#" class="tag">Bookbinding Machine</a></li>
+                         <li ><a href="#" class="tag">Alloy Steel Powder</a></li>
+                         <li ><a href="#" class="tag">Iron Wires</a></li>
+                         <li ><a href="#" class="tag">Steel Ingots</a></li>
+                         <li ><a href="#" class="tag">Gas/ Oil Pipes</a></li>
+                        <li class="parent"><a href="#" class="tag">Chains<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Stud Links</a></li>
+                                 <li ><a href="#" class="tag">Skid Links</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Anchors</a></li>
+                        <li class="parent"><a href="#" class="tag">Sewing Equipment<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Sewing Needles</a></li>
+                                 <li ><a href="#" class="tag">Threads</a></li>
+                                 <li ><a href="#" class="tag">Parts</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Cereal Milling Machine</a></li>
+                         <li ><a href="#" class="tag">Electric Welders</a></li>
+                         <li ><a href="#" class="tag">Vegetable Plaiting</a></li>
+                         <li ><a href="#" class="tag">Crude Oil</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Automotive</a>
+                        <ul class="child">
+                             <li ><a href="#" class="tag">Radio Receivers</a></li>
+                             <li ><a href="#" class="tag">Electric Motor Vehicles</a></li>
+                             <li ><a href="#" class="tag">Tracktor Equipment</a></li>
+                             <li ><a href="#" class="tag">Bumpers</a></li>
+                             <li ><a href="#" class="tag">Safety Seatbelts</a></li>
+                             <li ><a href="#" class="tag">Gearboxes</a></li>
+                             <li ><a href="#" class="tag">Drive Axles (Differential)</a></li>
+                             <li ><a href="#" class="tag">Road Wheels</a></li>
+                             <li ><a href="#" class="tag">Radiators</a></li>
+                             <li ><a href="#" class="tag">Exhaust Pipes</a></li>
+                             <li ><a href="#" class="tag">Clutches</a></li>
+                             <li ><a href="#" class="tag">Steering Wheels</a></li>
+                             <li ><a href="#" class="tag">Airbags</a></li>
+                             <li ><a href="#" class="tag">Seats</a></li>
+                             <li ><a href="#" class="tag">Air Conditioners</a></li>
+                             <li ><a href="#" class="tag">Combustion Engines</a></li>
+                             <li ><a href="#" class="tag">Aircraft Engines</a></li>
+                             <li ><a href="#" class="tag">Spark Pistons</a></li>
+                        </ul>
+                    </li>
+                <li class="parent"><a href="#" class="tag">Computers, ICT & Accessories</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Computers</a></li>
+                         <li ><a href="#" class="tag">Keyboards</a></li>
+                         <li ><a href="#" class="tag">Hard Drives</a></li>
+                         <li ><a href="#" class="tag">Amplifiers</a></li>
+                         <li ><a href="#" class="tag">Solid-State Drives</a></li>
+                         <li ><a href="#" class="tag">Base Stations</a></li>
+                         <li ><a href="#" class="tag">Magnetic Stripe Cards</a></li>
+                         <li ><a href="#" class="tag">Smart Cards</a></li>
+                         <li ><a href="#" class="tag">Monitors</a></li>
+                         <li ><a href="#" class="tag">Microphones</a></li>
+                         <li ><a href="#" class="tag">Computer Mices</a></li>
+                         <li ><a href="#" class="tag">Web Camera</a></li>
+                    </ul>
+                </li>
+
+                <br><br>
+
+                <li class="parent"><a href="">Baby Products</a>
+                    <ul class="child">
+                        <li class="parent"><a href="#" class="tag">Baby Foods<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Vegetable Baby Foods</a></li>
+                                 <li ><a href="#" class="tag">Fruit Baby Foods</a></li>
+                                 <li ><a href="#" class="tag">Artificial Threads</a></li>
+                                 <li ><a href="#" class="tag">Other baby foods</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Powders</a></li>
+                        <li class="parent"><a href="#" class="tag">Garments & Clothing<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Cotton Garments</a></li>
+                                 <li ><a href="#" class="tag">Synthetic Fiber</a></li>
+                                 <li ><a href="#" class="tag">Knitted Textile</a></li>
+                                 <li ><a href="#" class="tag">Non-Knit Cotton</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Baby Diapers</a></li>
+                         <li ><a href="#" class="tag">Carriages & Strollers</a></li>
+                    </ul>
+                </li>
+
+                <li class="parent"><a href="">Jewellery</a>
+                    <ul class="child">
+                        <li class="parent"><a href="#" class="tag">Pearls<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Nautral Pearls</a></li>
+                                 <li ><a href="#" class="tag">Cultured Pearls</a></li>
+                                 <li ><a href="#" class="tag">Pearls Products</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Diamonds<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Industrial Diamonds</a></li>
+                                 <li ><a href="#" class="tag">Non-Industrial Diamonds</a></li>
+                                 <li ><a href="#" class="tag">Powder Diamonds</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Precious Stones</a></li>
+                         <li ><a href="#" class="tag">Rubbies</a></li>
+                         <li ><a href="#" class="tag">Sapphires</a></li>
+                         <li ><a href="#" class="tag">Emeralds</a></li>
+                         <li ><a href="#" class="tag">Semiprecious Stones</a></li>
+                         <li ><a href="#" class="tag">Quartz</a></li>
+                         <li ><a href="#" class="tag">Gemstones</a></li>
+                        <li class="parent"><a href="#" class="tag">Silver<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Powder Silver</a></li>
+                                 <li ><a href="#" class="tag">Semimanufactured Silver</a></li>
+                                 <li ><a href="#" class="tag">Unwrought Silver</a></li>
+                                 <li ><a href="#" class="tag">Silver Jewellery</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Gold<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Powder Gold</a></li>
+                                 <li ><a href="#" class="tag">Semimanufactured Gold</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Platinum<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Unwrought Platinum</a></li>
+                                 <li ><a href="#" class="tag">Powder Platinum</a></li>
+                                 <li ><a href="#" class="tag">Metal Firm Form</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Precious Metal Jewellery</a></li>
+                         <li ><a href="#" class="tag">Platinum/ Gold Products</a></li>
+                         <li ><a href="#" class="tag">Pearl Products</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Pet Supplies</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Dog/ Cat Food</a></li>
+                         <li ><a href="#" class="tag">Other Animal Food Preps</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Beauty</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag" nowrap>Skin Cleansers</a></li>
+                         <li ><a href="#" class="tag" nowrap>Skincare Cremes & Oils</a></li>
+                         <li ><a href="#" class="tag" nowrap>Lip Make-Up</a></li>
+                         <li ><a href="#" class="tag" nowrap>Eye Make-Up</a></li>
+                         <li ><a href="#" class="tag" nowrap>Powder Make-Up</a></li>
+                         <li ><a href="#" class="tag" nowrap>Deodorants</a></li>
+                         <li ><a href="#" class="tag" nowrap>Bath Salts</a></li>
+                         <li ><a href="#" class="tag" nowrap>Hair Trimmers</a></li>
+                         <li ><a href="#" class="tag" nowrap>Trimmer Parts & Accessories</a></li>
+                         <li ><a href="#" class="tag" nowrap>Synthetic Wigs</a></li>
+                         <li ><a href="#" class="tag" nowrap>Synthetic Beard Wigs</a></li>
+                         <li ><a href="#" class="tag" nowrap>Natural Beard Wigs</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Shoes & Handbags</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Rubber Shoes</a></li>
+                         <li ><a href="#" class="tag">Sports Shoes</a></li>
+                         <li ><a href="#" class="tag">Waterproof Shoes</a></li>
+                         <li ><a href="#" class="tag">Rubber Boots</a></li>
+                         <li ><a href="#" class="tag">Sports Rubber Footwear</a></li>
+                         <li ><a href="#" class="tag">Shoe Insoles</a></li>
+                         <li ><a href="#" class="tag">Leather Shoes</a></li>
+                         <li ><a href="#" class="tag">Snowboard Shoes</a></li>
+                         <li ><a href="#" class="tag">High Rubber Shoes</a></li>
+                         <li ><a href="#" class="tag">Leather Handbags</a></li>
+                         <li ><a href="#" class="tag">Plastic Handbags</a></li>
+                         <li ><a href="#" class="tag">Leather Wallets</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Books</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Exercise Books</a></li>
+                         <li ><a href="#" class="tag">Folder Covers</a></li>
+                         <li ><a href="#" class="tag">Book Covers</a></li>
+                         <li ><a href="#" class="tag">Printed Books</a></li>
+                         <li ><a href="#" class="tag">Dictionaries/ Encyclopedias</a></li>
+                         <li ><a href="#" class="tag">Journals</a></li>
+                         <li ><a href="#" class="tag">Coloring Books</a></li>
+                         <li ><a href="#" class="tag">Music Manuscripts</a></li>
+                         <li ><a href="#" class="tag">Maps & Atlases</a></li>
+                         <li ><a href="#" class="tag">Commercial Catalogs</a></li>
+                    </ul>
+                </li>
+                
+                <br><br>
+
+                <li class="parent"><a href="">Lawn and Garden</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Lawn Mowers </a></li>
+                         <li ><a href="#" class="tag">Other Lawn Mowers</a></li>
+                         <li ><a href="#" class="tag">Land-Roller Parts</a></li>
+                         <li ><a href="#" class="tag">Garden Umbrellas</a></li>
+                         <li ><a href="#" class="tag">Grass Mower Parts</a></li>
+                        <li class="parent"><a href="#" class="tag">Cutting Machines<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Water Jet</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Shears<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Metal Shears</a></li>
+                                 <li ><a href="#" class="tag">Edging Shears</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Shovels</a></li>
+                         <li ><a href="#" class="tag">Picks</a></li>
+                         <li ><a href="#" class="tag">Garden Handtools</a></li>
+                         <li ><a href="#" class="tag">Manure Spreaders</a></li>
+                         <li ><a href="#" class="tag">Spreaders & Planters</a></li>
+                         <li ><a href="#" class="tag">Fertilizer Distributors</a></li>
+                         <li ><a href="#" class="tag">Haying Machines</a></li>
+                         <li ><a href="#" class="tag">Balers</a></li>
+                         <li ><a href="#" class="tag">Harvesters</a></li>
+                         <li ><a href="#" class="tag">Threshers</a></li>
+                         <li ><a href="#" class="tag">Sprayers</a></li>
+                    </ul>
+                </li>
+                
+                <li class="parent"><a href="">Musical Instruments</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Instrument Strings</a></li>
+                        <li class="parent"><a href="#" class="tag">Pianos<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Upright Pianos</a></li>
+                                 <li ><a href="#" class="tag">Grand Pianos</a></li>
+                                 <li ><a href="#" class="tag">Piano Parts & Accessories</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Keyboard Instruments</a></li>
+                        <li class="parent"><a href="#" class="tag">String Instruments<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Bow Played</a></li>
+                                 <li ><a href="#" class="tag">Non-Bow Played</a></li>
+                                 <li ><a href="#" class="tag">Parts & Accessories</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Brass Instruments</a></li>
+                         <li ><a href="#" class="tag">Drum Instruments</a></li>
+                         <li ><a href="#" class="tag">Music Boxes</a></li>
+                         <li ><a href="#" class="tag">Call Hornes</a></li>
+                         <li ><a href="#" class="tag">Sound Amplifying Instruments</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Lighting</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Electric Lamps</a></li>
+                         <li ><a href="#" class="tag">Non-Electric Lamps</a></li>
+                         <li ><a href="#" class="tag">Illuminated Signs</a></li>
+                        <li class="parent"><a href="#" class="tag">Lamp Parts<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Of Glass</a></li>
+                                 <li ><a href="#" class="tag">Of Plastic</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Pocket Lighting Devices<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Refillable</a></li>
+                                 <li ><a href="#" class="tag">Non-Refillable</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Lighter Parts</a></li>
+                         <li ><a href="#" class="tag">Lighters</a></li>
+                         <li ><a href="#" class="tag">Lighter Fuel</a></li>
+                         <li ><a href="#" class="tag">LED Lamps</a></li>
+                         <li ><a href="#" class="tag">Diodes</a></li>
+                         <li ><a href="#" class="tag">Photographic Apparatus</a></li>
+                         <li ><a href="#" class="tag">Bicycle Lights</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Sports, Outdoors & Leisure</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Sport Gloves</a></li>
+                         <li ><a href="#" class="tag">Rubber Footwear</a></li>
+                         <li ><a href="#" class="tag">Upper Footwear</a></li>
+                         <li ><a href="#" class="tag">Headgear</a></li>
+                         <li ><a href="#" class="tag">Scooters</a></li>
+                         <li ><a href="#" class="tag">Tricycles</a></li>
+                         <li ><a href="#" class="tag">Billiard Equipment</a></li>
+                         <li ><a href="#" class="tag">Playing Cards</a></li>
+                         <li ><a href="#" class="tag">Video Game Console</a></li>
+                         <li ><a href="#" class="tag">Skiing Equipment</a></li>
+                        <li class="parent"><a href="#" class="tag">Golf<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Golf Clubs</a></li>
+                                 <li ><a href="#" class="tag">Golf Balls</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Table Tennis Equipment</a></li>
+                        <li class="parent"><a href="#" class="tag">Balls<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Lawn Tennis Balls</a></li>
+                                 <li ><a href="#" class="tag">Inflatable Balls</a></li>
+                                 <li ><a href="#" class="tag">Other Balls</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Ice/ Roller Skates</a></li>
+                         <li ><a href="#" class="tag">Exercise Equipment</a></li>
+                        <li class="parent"><a href="#" class="tag">Fishing<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Rods</a></li>
+                                 <li ><a href="#" class="tag">Hooks</a></li>
+                                 <li ><a href="#" class="tag">Reels</a></li>
+                                 <li ><a href="#" class="tag">Line Tackles</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Vessels<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Inflatable</a></li>
+                                 <li ><a href="#" class="tag">Sport Yachts</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Hunting<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Shotguns</a></li>
+                                 <li ><a href="#" class="tag">Rifles</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <br><br>
+
+                <li class="parent"><a href="">Electronics</a>
+                    <ul class="child">
+                        <li class="parent"><a href="#" class="tag">Calculators<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Electronic</a></li>
+                                 <li ><a href="#" class="tag">Accessories & Parts</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Circuit Processors</a></li>
+                         <li ><a href="#" class="tag">Circuit Memmory</a></li>
+                         <li ><a href="#" class="tag">Amplifiers</a></li>
+                         <li ><a href="#" class="tag">Electronic Integrated Circuits</a></li>
+                         <li ><a href="#" class="tag">EIC Parts</a></li>
+                         <li ><a href="#" class="tag">Optical Watch Displays</a></li>
+                         <li ><a href="#" class="tag">Turntable Equipment</a></li>
+                         <li ><a href="#" class="tag">Solid-State Drives</a></li>
+                         <li ><a href="#" class="tag">Radar Equipment</a></li>
+                        <li class="parent"><a href="#" class="tag">Radio<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Navigation Aid</a></li>
+                                 <li ><a href="#" class="tag">Remote Controllers</a></li>
+                                 <li ><a href="#" class="tag">Casette Players</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Traffic Control Equipment<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">For Rails</a></li>
+                                 <li ><a href="#" class="tag">Other Traffic Controls</a></li>
+                                 <li ><a href="#" class="tag">Safety Equipment</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Alarm Systems<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Burglar/ Fire-Alarms</a></li>
+                                 <li ><a href="#" class="tag">Indicator Panels</a></li>
+                                 <li ><a href="#" class="tag">Sound & Visual Signaling</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Capacitors<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Aluminum Fixed</a></li>
+                                 <li ><a href="#" class="tag">Ceramic Single Layer</a></li>
+                                 <li ><a href="#" class="tag">Ceramic Multi layer</a></li>
+                                 <li ><a href="#" class="tag">Adjustable Capacitors</a></li>
+                                 <li ><a href="#" class="tag">Capacitor Parts</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Resistors<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Carbon Fixed</a></li>
+                                 <li ><a href="#" class="tag">20W Fixed</a></li>
+                                 <li ><a href="#" class="tag">Over 20W</a></li>
+                                 <li ><a href="#" class="tag">Wirewound</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Luggage & Bags</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Polyethelyne Bags</a></li>
+                         <li ><a href="#" class="tag">Textile Bags</a></li>
+                         <li ><a href="#" class="tag">Leather Suitcases</a></li>
+                         <li ><a href="#" class="tag">Plastic Suitcases</a></li>
+                         <li ><a href="#" class="tag">Vanity Cases</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Toys & Games</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Coin Operated Games</a></li>
+                         <li ><a href="#" class="tag">Tricycles, Scooters</a></li>
+                         <li ><a href="#" class="tag">Billiard Accessories</a></li>
+                         <li ><a href="#" class="tag">Playing Cards</a></li>
+                         <li ><a href="#" class="tag">Video Game Console</a></li>
+                         <li ><a href="#" class="tag">Board Games</a></li>
+                         <li ><a href="#" class="tag">Christmas Art</a></li>
+                         <li ><a href="#" class="tag">Carnival Accessories</a></li>
+                         <li ><a href="#" class="tag">Table Tennis Equipment</a></li>
+                         <li ><a href="#" class="tag">Badminton/ Tennis Rackets</a></li>
+                         <li ><a href="#" class="tag">Ice & Roller Skates</a></li>
+                    </ul>
+                </li>
+                <li class="parent"><a href="">Furniture</a>
+                    <ul class="child">
+                         <li ><a href="#" class="tag">Desk</a></li>
+                         <li ><a href="#" class="tag">Chair</a></li>
+                         <li ><a href="#" class="tag">Portable Lamps</a></li>
+                         <li ><a href="#" class="tag">Textile Posters</a></li>
+                        <li class="parent"><a href="#" class="tag">Wooden<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Office Furniture</a></li>
+                                 <li ><a href="#" class="tag">Kitchen Furniture</a></li>
+                                 <li ><a href="#" class="tag">Bedroom Furniture</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Of Plastic</a></li>
+                         <li ><a href="#" class="tag">Of Bamboo</a></li>
+                         <li ><a href="#" class="tag">Of Rattan</a></li>
+                         <li ><a href="#" class="tag">Bed Sheets</a></li>
+                        <li class="parent"><a href="#" class="tag">Bed Linen<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Knitted</a></li>
+                                 <li ><a href="#" class="tag">Cotton Prints</a></li>
+                                 <li ><a href="#" class="tag">Manmade of Fibers</a></li>
+                                 <li ><a href="#" class="tag">Textile Prints</a></li>
+                                 <li ><a href="#" class="tag">Other Bed Linen</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Mattresses<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Pneumatic Mattresse</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Wool Blankets</a></li>
+                         <li ><a href="#" class="tag">Travelling Rugs</a></li>
+                         <li ><a href="#" class="tag">Metal Furniture</a></li>
+                        <li class="parent"><a href="#" class="tag">Furniture Plastics<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Fittings</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="parent"><a href="">Watches</a>
+                    <ul class="child">
+                        <li class="parent"><a href="#" class="tag">Wrist Watches<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Mechanical Watches</a></li>
+                                 <li ><a href="#" class="tag">Automatic Watches without batteries</a></li>
+                                 <li ><a href="#" class="tag">Optical/ Electric</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Non-Wrist Watches<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Electric Watches</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Clocks<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Electric Clocks</a></li>
+                                 <li ><a href="#" class="tag">Electric Clocks without batteries</a></li>
+                                 <li ><a href="#" class="tag">Electric Alarm Clocks</a></li>
+                                 <li ><a href="#" class="tag">Non-Electric Alarm Clocks</a></li>
+                                 <li ><a href="#" class="tag">Electric Wall Clocks</a></li>
+                                 <li ><a href="#" class="tag">Non-Electric Wall Clocks</a></li>
+                            </ul>
+                        </li>
+                         <li ><a href="#" class="tag">Time Registers/ Records</a></li>
+                        <li class="parent"><a href="#" class="tag">Watch Cases<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Precious Metals</a></li>
+                                 <li ><a href="#" class="tag">Gold/ Silver Plated</a></li>
+                                 <li ><a href="#" class="tag">Other Cases</a></li>
+                                 <li ><a href="#" class="tag">Parts (Any Material)</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Watch Bands<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Metal Bands</a></li>
+                                 <li ><a href="#" class="tag">Non-Metal Bands</a></li>
+                            </ul>
+                        </li>
+                        <li class="parent"><a href="#" class="tag">Watch Parts<span class="expand">»</span></a>
+                            <ul class="child">
+                                 <li ><a href="#" class="tag">Springs</a></li>
+                                 <li ><a href="#" class="tag">Dials</a></li>
+                                 <li ><a href="#" class="tag">Plates/ Bridges</a></li>
+                                 <li ><a href="#" class="tag">Other Watch Parts</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        <div id="dd">
+            <label for="states">Choose country:</label>
+            <select name="states" id="states-dropdown"></select>
+        </div>
+
+        <div class="loader loader-5" style="display:none"></div>
+
+
+            <div id="container" style="width:550px">
+                <p id="section"><b><label class="query"><%= data.sectionQuery %></label></b></p>
+                <p id="sectionNote"><b>Section Note: </b><label class="query"><%= data.sectionNotesQuery %></label></p>
+                <p id="entityDescription"><b>Commodity Description: </b><label class="query"><%= data.subheadingQuery %></label></p>
+                <p id="cnData"><b>CN (Combined Nomenclature) Code: </b><label class="query"><%= data.CNQuery %></label></p>
+
+                <div id="miningStats">
+                    <div><%= data.CNMineAccuracy %></div>
+                    <div id="taxEstimates">VAT amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.vatQuery/100)%> EUROS
+                    </div>
+                </div>
+                
+                <div class="c100 p34 center" id="percentile1">
+                    <span style="font-size:17px;margin-top:-60px">VAT</span>
+                    <span><%= data.vatQuery %>%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+
+                <div class="c100 p34 center" id="percentile2">
+                    <span style="font-size:17px;margin-top:-60px">Customs Duty</span>
+                    <span><%= data.dutyQuery %>%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+
+                <div class="c100 p34 center" id="percentile3">
+                    <span style="font-size:17px;margin-top:-60px">MFN Duty</span>
+                    <span><%= data.mfnQuery %>%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+
+            </div>
+
+    </div>
+
+</main>
+
+<footer>
+    <%- include('../partials/footer.ejs'); %>
+</footer>
+
+</body>
+
+</html>

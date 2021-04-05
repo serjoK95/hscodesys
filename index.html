@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>HS CODES | Machine Learning</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        
+    </head>
+
+    <body>
+        <h2>HS CODES</h2>
+
+        <input/>
+        <button>Search</button>
+        <h4>Result</h4>
+        <ul id="list"></ul>
+
+        <!--Scripts -->
+
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="//unpkg.com/brain.js"></script>
+        <script>
+
+                ///////////
+               // let fileContent = fs.readFileSync("network.json", "utf8");
+                //let fileContentJSON = JSON.parse(fileContent);
+                //net.fromJSON(fileContentJSON);
+                ///////////
+
+                $('button').on('click', function(e) {
+                    let inputValue = $('input').val();
+
+                    //let section;
+
+                    /*if (inputValue >= 01 && inputValue <= 05) {
+                        section = "SECTION I - LIVE ANIMALS/ ANIMAL PRODUCTS";
+                    } else if (inputValue >= 06 && inputValue <= 14) {
+                        section = "SECTION II - VEGETABLE PRODUCTS";
+                    }*/
+
+                    const result = network.run(inputValue);
+                    console.log(result);
+                    //console.log(section);
+                    $('#list').append('<li>'+result+'</li>');
+                })
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,140 @@
+[
+    {
+        "memberState" : "Belgium",
+        "memberCode" : "BE",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "Bulgaria",
+        "memberCode" : "BG",
+        "standardRate" : 20
+    },
+    {
+        "memberState" : "Czech Republic",
+        "memberCode" : "CZ",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "Denmark",
+        "memberCode" : "DK",
+        "standardRate" : 25
+    },
+    {
+        "memberState" : "Germany",
+        "memberCode" : "DE",
+        "standardRate" : 19
+    },
+    {
+        "memberState" : "Estonia",
+        "memberCode" : "EE",
+        "standardRate" : 20
+    },
+    {
+        "memberState" : "Ireland",
+        "memberCode" : "IE",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "Greece",
+        "memberCode" : "EL",
+        "standardRate" : 24
+    },
+    {
+        "memberState" : "Spain",
+        "memberCode" : "ES",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "France",
+        "memberCode" : "FR",
+        "standardRate" : 20
+    },
+    {
+        "memberState" : "Croatia",
+        "memberCode" : "HR",
+        "standardRate" : 25
+    },
+    {
+        "memberState" : "Italy",
+        "memberCode" : "IT",
+        "standardRate" : 22
+    },
+    {
+        "memberState" : "Cyprus",
+        "memberCode" : "CY",
+        "standardRate" : 19
+    },
+    {
+        "memberState" : "Latvia",
+        "memberCode" : "LV",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "Luxembourg",
+        "memberCode" : "LU",
+        "standardRate" : 17
+    },
+    {
+        "memberState" : "Hungary",
+        "memberCode" : "HU",
+        "standardRate" : 27
+    },
+    {
+        "memberState" : "Lithuania",
+        "memberCode" : "LT",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "Malta",
+        "memberCode" : "MT",
+        "standardRate" : 18
+    },
+    {
+        "memberState" : "Netherlands",
+        "memberCode" : "NL",
+        "standardRate" : 21
+    },
+    {
+        "memberState" : "Austria",
+        "memberCode" : "AT",
+        "standardRate" : 20
+    },
+    {
+        "memberState" : "Poland",
+        "memberCode" : "PL",
+        "standardRate" : 23
+    },
+    {
+        "memberState" : "Portugal",
+        "memberCode" : "PT",
+        "standardRate" : 23
+    },
+    {
+        "memberState" : "Romania",
+        "memberCode" : "RO",
+        "standardRate" : 19
+    },
+    {
+        "memberState" : "Slovenia",
+        "memberCode" : "SI",
+        "standardRate" : 22
+    },
+    {
+        "memberState" : "Slovakia",
+        "memberCode" : "SK",
+        "standardRate" : 20
+    },
+    {
+        "memberState" : "Finland",
+        "memberCode" : "FI",
+        "standardRate" : 24
+    },
+    {
+        "memberState" : "Sweden",
+        "memberCode" : "SE",
+        "standardRate" : 25
+    }
+    
+]
+
+

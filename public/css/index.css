@@ -1,0 +1,180 @@
+.jumbotron{
+    position:relative;
+    height: 800px;
+    width: 1300px;
+    transform: translate(-10%, 5%);
+}
+
+#tagcloud{
+  position: absolute;
+  transform: translate(32%, -100%);
+  border: solid 1px black;
+  padding: 5px 5px 5px 5px;
+  border-radius: 4px;
+}
+
+#tagcloud a{
+  padding: 2px 2px 2px 2px;
+  background-color: lightgray;
+  border-radius: 5px;
+  color: black;
+}
+
+#dd{
+    position:absolute;
+    top: 0px;
+    right: 5%;
+    margin-top: 1%;
+}
+
+#container{
+    transform: translate(0%, -25%);
+}
+
+#miningStats{
+  transform: translate(120%, -85px);
+}
+
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 7.5%;
+    transform: translate(-50%, -50%);
+
+
+    display: inline-block;
+    margin: 0 12.5% 100px;
+    width: 120px;
+    height: 120px;
+    border: 2px solid #0cf;
+    border-radius: 50%;
+    -webkit-animation: rotation 0.75s infinite linear;
+    animation: spin 0.75s infinite linear;
+  }
+  .loader::before,
+  .loader::after {
+    left: -2px;
+    top: -2px;
+    display: none;
+    position: absolute;
+    content: '';
+    width: inherit;
+    height: inherit;
+    border: inherit;
+    border-radius: inherit;
+  }
+
+  .loader-5,
+.loader-5::before {
+  display: inline-block;
+  border-color: transparent;
+  border-top-color: #0cf;
+}
+.loader-5::before {
+  animation: spin 1.5s infinite ease;
+}
+
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+  }
+      
+}
+
+#percentile1{
+  position: fixed;
+  transform: translate(-5%, -30px);
+}
+
+#percentile2{
+  position: fixed;
+  transform: translate(120%, -30px);
+}
+
+#percentile3{
+  position: fixed;
+  transform: translate(240%, -30px);
+}
+
+
+/*
+#vat{
+    position: relative;
+    height: 100px;
+    width: 100px;
+    background-color: grey;
+    border-radius: 4px;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    transform: translate(20%, 5%);
+    text-align: center;
+}
+
+#customs{
+    position: relative;
+    height: 100px;
+    width: 100px;
+    background-color: grey;
+    border-radius: 4px;
+    font-size: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    transform: translate(135%, -95%);
+    text-align: center;
+}
+
+#mfncustoms{
+  position: relative;
+  height: 100px;
+  width: 100px;
+  background-color: grey;
+  border-radius: 4px;
+  font-size: 40px;
+  font-family: Arial, Helvetica, sans-serif;
+  transform: translate(250%, -195%);
+  text-align: center;
+}
+*/
+
+
+
+.query{
+    border: 2px solid grey;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: 778899;
+}
+
+
+p,h3,h5{
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+hr {width: 1000px;margin-left: auto;margin-right: auto;height: 5px;background-color:#708090; border-radius: 10px;}
+
+
+
+/*************NESTED COMMODITY DROPDOWNS CSS BELOW**************/
+
+ul{
+  z-index: 5;
+}
+
+#menu{position:relative;  transform: translate(50%, -20%); }
+
+.child{z-index: 2;}
+.parent {display: block;position: relative;float: left;line-height: 30px;background-color: #708090;border-right:#CCC 1px solid;}
+.parent a{margin: 10px;color: #FFFFFF;text-decoration: none;}
+.parent:hover > ul {display:block;position:absolute;}
+.child {display: none;}
+.child li {background-color: #708090;line-height: 25px;border-bottom:#CCC 1px solid;border-right:#CCC 1px solid; width:200px;}
+.child li a{color: #000000;}
+ul{list-style: none;margin: 0;padding: 0px; min-width:10em;}
+ul ul ul{left: 100%;top: 0;margin-left:1px;}
+li:hover {background-color: #778899;}
+.parent li:hover {background-color: #F0F0F0;}
+.expand{font-size:12px;float:right;margin-right:5px;}
