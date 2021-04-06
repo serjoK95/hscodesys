@@ -1413,7 +1413,7 @@ switch(true){
 
 /////////////////////////
 
-server.listen(process.env.PORT || 5000, function(){
+server.listen(process.env.PORT, function(){
     console.log('HSCODESYS server started');
 })
 
