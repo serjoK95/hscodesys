@@ -854,7 +854,7 @@ switch(true){
         case (label == 'Pearl Products'):
             tagClickResponse =  '711610';
             break;
-        case (label == 'Dog/ Cat Food'):
+        case (label == 'Dog and Cat Food'):
             tagClickResponse =  '230910';
             break;
         case (label == 'Other Animal Food Preps'):
