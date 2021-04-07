@@ -1110,7 +1110,7 @@ switch(true){
         case (label =='Upper Footwear'):
             tagClickResponse = '640319';
             break;
-        case (label =='Headgea'):
+        case (label =='Headgear'):
             tagClickResponse = '650610';
             break;
         case (label =='Scooters'):
