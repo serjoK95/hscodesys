@@ -210,11 +210,11 @@
                 });
 
                 $('.loader').show();
-                //document.getElementById("hs").disabled = true;  ////
+                document.getElementById("hs").disabled = true;  ////
 
                 setTimeout(function(){
                     $('.loader').hide();
-                    //document.getElementById("hs").disabled = false; ////
+                    document.getElementById("hs").disabled = false; ////
                     $('#container').show();
                     $('#miningStats').show();
                     $('.center').show(); /// Show Circle Percentages
@@ -258,7 +258,7 @@
 
                     setTimeout(function(){
                        getEntity(); /// Automatic Trigger of Entity Allocation Function
-                    }, 1600);
+                    }, 1800);
 
                 });
                 
