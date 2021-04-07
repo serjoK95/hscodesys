@@ -28,11 +28,11 @@
 }
 
 #container{
-    transform: translate(0%, -25%);
+    transform: translate(0%, -18%);
 }
 
 #miningStats{
-  transform: translate(120%, -85px);
+  transform: translate(120%, -70px);
 }
 
 .loader {
@@ -87,17 +87,17 @@
 
 #percentile1{
   position: fixed;
-  transform: translate(-5%, -30px);
+  transform: translate(-5%, -180px);
 }
 
 #percentile2{
   position: fixed;
-  transform: translate(120%, -30px);
+  transform: translate(120%, -180px);
 }
 
 #percentile3{
   position: fixed;
-  transform: translate(240%, -30px);
+  transform: translate(240%, -180px);
 }
 
 
@@ -149,8 +149,21 @@
     color: 778899;
 }
 
+#toPDF{
+  position:relative;  transform: translate(300%, -640px); 
+  width: 60px;
+}
 
-p,h3,h5{
+#pdfico{
+  width: 60px;
+  height: 60px;
+}
+
+#toPDF:hover{
+  cursor: pointer;
+}
+
+p,h3,h5,#mineCNaccuracy,#vatEstimates, #dutyEstimates, #totalClearance{
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 

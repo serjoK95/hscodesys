@@ -4,7 +4,8 @@
     <%- include('../partials/head.ejs'); %>
 </head>
 
-<body onload="get(), $('.center').hide()" class="container">
+<body onload="get(), $('.center').hide(),$('#hs').val('Pick Item --->')" class="container">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
 
 <header>
     <%- include('../partials/header.ejs'); %>
@@ -209,9 +210,11 @@
                 });
 
                 $('.loader').show();
+                document.getElementById("hs").disabled = true;  ////
 
                 setTimeout(function(){
                     $('.loader').hide();
+                    document.getElementById("hs").disabled = false; ////
                     $('#container').show();
                     $('#miningStats').show();
                     $('.center').show(); /// Show Circle Percentages
@@ -244,11 +247,19 @@
                         $('#hs').val('Searching.....').show().fadeIn('slow'); //
                     }, 1200);
 
+                                                    //////////////////////
+                                                    $('#hs').attr('style', ' background-color:#d3d3d3;');
+
+                                ///////////////////////
+
                     setTimeout(function(){
                         $("#inputSection").load(location.href + " #inputSection");
                     }, 1500);
 
-                    
+                    setTimeout(function(){
+                       getEntity(); /// Automatic Trigger of Entity Allocation Function
+                    }, 1600);
+
                 });
                 
             });
@@ -259,7 +270,24 @@
         })
 
 
+        ///--------Export to PDF
+            var doc = new jsPDF(); 
+            var specialElementHandlers = { 
+                '#editor': function (element, renderer) { 
+                    return true; 
+                } 
+            };
 
+            $(document).ready(function() {
+                $('#toPDF').click(function () { 
+                    doc.fromHTML($('#container').html(), 15, 15, { 
+                        'width': 190, 
+                            'elementHandlers': specialElementHandlers 
+                    }); 
+                    doc.save('itemClassification.pdf'); 
+                });
+            });
+        ///
 
 
     </script>
@@ -986,9 +1014,10 @@
                 <p id="cnData"><b>CN (Combined Nomenclature) Code: </b><label class="query"><%= data.CNQuery %></label></p>
 
                 <div id="miningStats">
-                    <div><%= data.CNMineAccuracy %></div>
-                    <div id="taxEstimates">VAT amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.vatQuery/100)%> EUROS
-                    </div>
+                    <div id="mineCNaccuracy"><b style="color: #425761"><%= data.CNMineAccuracy %> = <%=data.minePercentage %>%</b></div>
+                    <div id="vatEstimates">VAT amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.vatQuery/100)%> EUROS</div>
+                    <div id="dutyEstimates">Duty amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.dutyQuery/100)%> EUROS</div>
+                    <div id="totalClearance"><b style="color: #425761">Total Clearance for 1000 EUROS WORTH OF THIS GOOD = <%=1000 * (data.vatQuery/100) + 1000 * (data.dutyQuery/100) %> EUROS</b></div>
                 </div>
                 
                 <div class="c100 p34 center" id="percentile1">
@@ -1021,6 +1050,8 @@
             </div>
 
     </div>
+
+    <div id="toPDF"><img id="pdfico" src="img/pdficon.png" alt="PDF Download"></div>
 
 </main>
 

@@ -15,6 +15,7 @@ var DecisionTree = require('decision-tree');
 var hsData = require('./hsDataset.json');
 var cnData = require('./nst-cn-dataset.json'); //
 const { ServerResponse } = require('http');
+const { stringify } = require('querystring');
 
 /*
 fs.readFile('hsDataset.json', (err, data) => {
@@ -60,7 +61,7 @@ server.set('view engine', 'ejs');
 server.get('/', function(req, res) {
         res.render('pages/index', { data: {subheadingQuery: queryResponse, sectionNotesQuery: queryResponse2,
         vatQuery: memberStateResponse, sectionQuery: sectionResponse, inputField: tagClickResponse, 
-        dutyQuery: dutyResponse, mfnQuery: mfnDutyResponse, CNQuery: CNResponse, CNMineAccuracy: cnMineAccuracy}});
+        dutyQuery: dutyResponse, mfnQuery: mfnDutyResponse, CNQuery: CNResponse, CNMineAccuracy: cnMineAccuracy, minePercentage: accuracyPercentage}});
 });
 
 server.get('/', function(req, res) {
@@ -142,37 +143,74 @@ function getSectionNote(input){
 // new function for CN EU CODES of Goods
 
 var cnMineAccuracy;
+var accuracyPercentage;
 function getCN(input){
     var test_data = [
         {
-            "chapter": "07",
-            "heading": "0703",
-            "subheading": "070390",
-            "CN2021": "07039000"
+            "CN2021":"02022090",
+            "chapter":"02",
+            "heading":"0202",
+            "subheading":"020220"
           },
           {
-            "chapter": "07",
-            "heading": "0704",
-            "subheading": "070410",
-            "CN2021": "07041000"
+            "CN2021":"02023010",
+            "chapter":"02",
+            "heading":"0202",
+            "subheading":"020230"
           },
           {
-            "chapter": "07",
-            "heading": "0704",
-            "subheading": "070420",
-            "CN2021": "07042000"
+            "CN2021":"02023050",
+            "chapter":"02",
+            "heading":"0202",
+            "subheading":"020230"
           },
           {
-            "chapter": "07",
-            "heading": "0704",
-            "subheading": "070490",
-            "CN2021": "07049010"
+            "CN2021":"02023090",
+            "chapter":"02",
+            "heading":"0202",
+            "subheading":"020230"
           },
           {
-            "chapter": "07",
-            "heading": "0704",
-            "subheading": "070490",
-            "CN2021": "07049090"
+            "CN2021":"65040000",
+            "chapter":"65",
+            "heading":"6504",
+            "subheading":"650400"
+          },
+          {
+            "CN2021":"02031110",
+            "chapter":"02",
+            "heading":"0203",
+            "subheading":"020311"
+          },
+          {
+            "CN2021":"02031190",
+            "chapter":"02",
+            "heading":"0203",
+            "subheading":"020311"
+          },
+          {
+            "CN2021":"02031211",
+            "chapter":"02",
+            "heading":"0203",
+            "subheading":"020312"
+          },
+          {
+            "CN2021":"02031219",
+            "chapter":"02",
+            "heading":"0203",
+            "subheading":"020312"
+          },
+          {
+            "CN2021":"02031290",
+            "chapter":"02",
+            "heading":"0203",
+            "subheading":"020312"
+          },
+          {
+            "CN2021":"02031911",
+            "chapter":"02",
+            "heading":"0203",
+            "subheading":"020319"
           }
     ];
 
@@ -196,8 +234,13 @@ function getCN(input){
 
     console.log(predicted_class);
     console.log(accuracy);
+
+        CNResponse = "Dataset Error. Code not present in Combined Nomenclature dataset.";
+
     CNResponse = predicted_class;
-    cnMineAccuracy = "Combined Nomenclature (Mining Accuracy (0-1): " + accuracy; // Mining Accuracy 
+    if (CNResponse == "10011100") {CNResponse = "Error. Adhering CN code is missing from the dataset."};
+    cnMineAccuracy = "Mining Accuracy (0-1): " + accuracy.toFixed(4); // Mining Accuracy 
+    accuracyPercentage = parseInt(accuracy.toFixed(2) * 100) ;
 }
 //
 
@@ -760,7 +803,7 @@ switch(true){
         case (label == 'Rubbies'):
             tagClickResponse =  '710391';
             break;
-        case (label == 'Sapphire'):
+        case (label == 'Sapphires'):
             tagClickResponse =  '710391';
             break;
         case (label == 'Emeralds'):
@@ -1004,7 +1047,7 @@ switch(true){
         case (label =='Brass Instruments'):
             tagClickResponse = '920510';
             break;
-        case (label =='Drum Insrtuments'):
+        case (label =='Drum Instruments'):
             tagClickResponse = '920600';
             break;
         case (label =='Music Boxes'):
@@ -1292,13 +1335,12 @@ switch(true){
         case (label =='Bedroom Furniture'):
             tagClickResponse = '940350';
             break;
-        
         case(label =='Of Plastic'):
-        tagClickResponse = '940370';
-        break;
+            tagClickResponse = '940370';
+            break;
         case(label =='Of Bamboo'):
         tagClickResponse = '940382';
-        break;
+            break;
         case(label =='Of Rattan'):
         tagClickResponse = '940383';
         break;
@@ -1398,11 +1440,6 @@ switch(true){
         case(label =='Other Watch Parts'):
         tagClickResponse = '911490';
         break;
-        
-
-        default:
-            tagClickResponse = 'error';
-            break;
 
     }
 
@@ -1413,7 +1450,7 @@ switch(true){
 
 /////////////////////////
 
-server.listen(process.env.PORT, function(){
+server.listen(process.env.PORT || 3000, function(){
     console.log('HSCODESYS server started');
 })
 
