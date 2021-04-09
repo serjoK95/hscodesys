@@ -1194,7 +1194,7 @@ switch(true){
         case (label =='Amplifiers'):
             tagClickResponse = '854233';
             break;
-        case (label =='Electronic Integrated Circuits'):
+        case (label =='Electronic Circuits'):
             tagClickResponse = '854239';
             break;
         case (label =='EIC Parts'):
@@ -1289,9 +1289,6 @@ switch(true){
             break;
         case (label =='Billiard Accessories'):
             tagClickResponse = '950420';
-            break;
-        case (label =='Playing Cards'):
-            tagClickResponse = '950440';
             break;
         case (label =='Video Game Console'):
             tagClickResponse = '950450';

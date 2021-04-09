@@ -4,8 +4,10 @@
     <%- include('../partials/head.ejs'); %>
 </head>
 
-<body onload="get(), $('.center').hide(),$('#hs').val('Pick Item --->')" class="container">
+<body onload="get(), $('.center').hide(),$('#hs').val('')" class="container">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/flatly/bootstrap.min.css" rel="stylesheet">
+
 
 <header>
     <%- include('../partials/header.ejs'); %>
@@ -19,6 +21,8 @@
     <script type="application/json" src="/vatRates.json"></script>
     <script type="application/json" src="/hsDataset.json"></script>
     <script type="text/javascript">
+
+    
 
         let membersArray = [];
         let dutiesArray = []; ////
@@ -301,8 +305,20 @@
 
 
         <div id='inputSection'>
-            <input id="hs" value="<%- data.inputField %>" name="codeInput" placeholder="HS Code...">
-            <button id="allocate" onclick="getEntity()">Allocate</button>
+            <form>
+
+                <div class="form-group">
+                    <label for="hs">Query the dataset to find information</label>
+                    <div class="input-group" style="width: 180px;">
+                        <input type="text" class="form-control" value="<%- data.inputField %>" id="hs" aria-describedby="hsHelp" placeholder="XX.XX.XX" style="margin-right:2px">
+                        <button id="allocate" type="button" class="btn btn-outline-primary" onclick="getEntity()">Allocate</button>
+                    </div>
+                    <small id="hsHelp" class="form-text text-muted">HS stands for Harmonized System, code must be of 6 digits</small>
+                  </div>
+
+            </form>
+            
+
         </div>
         
         <!-- 
@@ -835,7 +851,7 @@
                          <li ><a href="#" class="tag">Circuit Processors</a></li>
                          <li ><a href="#" class="tag">Circuit Memmory</a></li>
                          <li ><a href="#" class="tag">Amplifiers</a></li>
-                         <li ><a href="#" class="tag">Electronic Integrated Circuits</a></li>
+                         <li ><a href="#" class="tag">Electronic Circuits</a></li>
                          <li ><a href="#" class="tag">EIC Parts</a></li>
                          <li ><a href="#" class="tag">Optical Watch Displays</a></li>
                          <li ><a href="#" class="tag">Turntable Equipment</a></li>

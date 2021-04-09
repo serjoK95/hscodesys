@@ -87,17 +87,17 @@
 
 #percentile1{
   position: fixed;
-  transform: translate(-5%, -180px);
+  transform: translate(-5%, -140px);
 }
 
 #percentile2{
   position: fixed;
-  transform: translate(120%, -180px);
+  transform: translate(120%, -140px);
 }
 
 #percentile3{
   position: fixed;
-  transform: translate(240%, -180px);
+  transform: translate(240%, -140px);
 }
 
 
@@ -150,7 +150,7 @@
 }
 
 #toPDF{
-  position:relative;  transform: translate(300%, -640px); 
+  position:relative;  transform: translate(150%, -605px); 
   width: 60px;
 }
 
@@ -163,7 +163,7 @@
   cursor: pointer;
 }
 
-p,h3,h5,#mineCNaccuracy,#vatEstimates, #dutyEstimates, #totalClearance{
+p,h3,h5,#mineCNaccuracy,#vatEstimates, #dutyEstimates, #totalClearance, .tag, a, body{
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
