@@ -293,6 +293,12 @@
             });
         ///
 
+        //Pop-Up Div
+        function myFunction() {
+        var popup = document.getElementById("myPopup");
+        popup.classList.toggle("show");
+        }
+
 
     </script>
 
@@ -340,6 +346,10 @@
         </div>
         -->
         
+        <div class="popup" onclick="myFunction()">How to Use
+            <span class="popuptext" id="myPopup">Click options from the dropdown to initiate the traversal process.</span>
+          </div>
+
             <ul id="menu">
                 <h5>Common Commodity Categories</h5>
                 <li class="parent"><a href="#" class="tag">Apparel & Accessories</a>
@@ -1025,8 +1035,11 @@
 
 
             <div id="container" style="width:550px">
+
                 <p id="section"><b><label class="query"><%= data.sectionQuery %></label></b></p>
+                
                 <p id="sectionNote"><b>Section Note: </b><label class="query"><%= data.sectionNotesQuery %></label></p>
+            
                 <p id="entityDescription"><b>Commodity Description: </b><label class="query"><%= data.subheadingQuery %></label></p>
                 <p id="cnData"><b>CN (Combined Nomenclature) Code: </b><label class="query"><%= data.CNQuery %></label></p>
 
