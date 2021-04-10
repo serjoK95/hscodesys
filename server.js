@@ -75,7 +75,8 @@ server.set('view engine', 'ejs');
 server.get('/', function(req, res) {
         res.render('pages/index', { data: {subheadingQuery: queryResponse, sectionNotesQuery: queryResponse2,
         vatQuery: memberStateResponse, sectionQuery: sectionResponse, inputField: tagClickResponse, 
-        dutyQuery: dutyResponse, mfnQuery: mfnDutyResponse, CNQuery: CNResponse, CNMineAccuracy: cnMineAccuracy, minePercentage: accuracyPercentage}});
+        dutyQuery: dutyResponse, mfnQuery: mfnDutyResponse, CNQuery: CNResponse, CNMineAccuracy: cnMineAccuracy, minePercentage: accuracyPercentage,
+        hsCount: count, cnCount: count2}});
 });
 
 server.get('/', function(req, res) {
