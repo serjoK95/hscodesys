@@ -162,70 +162,52 @@ var accuracyPercentage;
 function getCN(input){
     var test_data = [
         {
-            "CN2021":"02022090",
-            "chapter":"02",
-            "heading":"0202",
-            "subheading":"020220"
+            "CN2021":"10011100",
+            "chapter":"10",
+            "heading":"1001",
+            "subheading":"100111"
           },
           {
-            "CN2021":"02023010",
-            "chapter":"02",
-            "heading":"0202",
-            "subheading":"020230"
+            "CN2021":"10011900",
+            "chapter":"10",
+            "heading":"1001",
+            "subheading":"100119"
           },
           {
-            "CN2021":"02023050",
-            "chapter":"02",
-            "heading":"0202",
-            "subheading":"020230"
+            "CN2021":"10019110",
+            "chapter":"10",
+            "heading":"1001",
+            "subheading":"100191"
           },
           {
-            "CN2021":"02023090",
-            "chapter":"02",
-            "heading":"0202",
-            "subheading":"020230"
+            "CN2021":"10019120",
+            "chapter":"10",
+            "heading":"1001",
+            "subheading":"100191"
           },
           {
-            "CN2021":"65040000",
-            "chapter":"65",
-            "heading":"6504",
-            "subheading":"650400"
+            "CN2021":"10019190",
+            "chapter":"10",
+            "heading":"1001",
+            "subheading":"100191"
           },
           {
-            "CN2021":"02031110",
-            "chapter":"02",
-            "heading":"0203",
-            "subheading":"020311"
+            "CN2021":"10019900",
+            "chapter":"10",
+            "heading":"1001",
+            "subheading":"100199"
           },
           {
-            "CN2021":"02031190",
-            "chapter":"02",
-            "heading":"0203",
-            "subheading":"020311"
+            "CN2021":"10021000",
+            "chapter":"10",
+            "heading":"1002",
+            "subheading":"100210"
           },
           {
-            "CN2021":"02031211",
-            "chapter":"02",
-            "heading":"0203",
-            "subheading":"020312"
-          },
-          {
-            "CN2021":"02031219",
-            "chapter":"02",
-            "heading":"0203",
-            "subheading":"020312"
-          },
-          {
-            "CN2021":"02031290",
-            "chapter":"02",
-            "heading":"0203",
-            "subheading":"020312"
-          },
-          {
-            "CN2021":"02031911",
-            "chapter":"02",
-            "heading":"0203",
-            "subheading":"020319"
+            "CN2021":"10029000",
+            "chapter":"10",
+            "heading":"1002",
+            "subheading":"100290"
           }
     ];
 
@@ -250,7 +232,7 @@ function getCN(input){
     console.log(predicted_class);
     console.log(accuracy);
 
-        CNResponse = "Dataset Error. Code not present in Combined Nomenclature dataset.";
+        CNResponse = "Insufficient Dataset. Code not present in Combined Nomenclature by EUROSTAT.";
 
     CNResponse = predicted_class;
     if (CNResponse == "10011100") {CNResponse = "Error. Adhering CN code is missing from the dataset."};
