@@ -17,6 +17,20 @@ var cnData = require('./nst-cn-dataset.json'); //
 const { ServerResponse } = require('http');
 const { stringify } = require('querystring');
 
+var count = 0;
+var count2 =0;
+for (let i=0; i<hsData.length;i++){
+    count++;
+}
+console.log(count);
+
+for (let i=0; i<cnData.length;i++){
+    count2++;
+}
+console.log(count2);
+
+
+
 /*
 fs.readFile('hsDataset.json', (err, data) => {
     if (err) throw err;
