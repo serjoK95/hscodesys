@@ -1,8 +1,16 @@
 .jumbotron{
     position:relative;
-    height: 840px;
+    height: 860px;
     width: 1300px;
     transform: translate(-10%, 5%);
+    border: solid 1px black;
+}
+
+#datasetsInfo{
+  background-color: #e7e7e7;
+  color: black;
+  border: 0.7px solid grey;
+  width: 800px;
 }
 
 #tagcloud{
@@ -32,7 +40,7 @@
 }
 
 #miningStats{
-  transform: translate(120%, -40px);
+  transform: translate(120%, -55px);
 }
 
 .loader {
@@ -144,10 +152,12 @@
   border: 0.7px solid grey;
   border-radius: 8px;
   padding: 3px 3px 3px 3px;
-  transform: translate(1100px, -45px);
+  transform: translate(1100px, -90px);
   position: relative;
   display: inline-block;
   cursor: pointer;
+  background-color: #e7e7e7;
+  color: black;
 }
 
 /* The actual popup (appears on top) */
@@ -199,14 +209,16 @@
 
 .query{
     border: 0.7px solid grey;
-    border-radius: 3px;
-    padding-left: 5px;
-    padding-right: 5px;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     color: 778899;
+    background-color: #e7e7e7;
+    color: black;
 }
 
 #toPDF{
-  position:relative;  transform: translate(150%, -605px); 
+  position:relative;  transform: translate(150%, -620px); 
   width: 60px;
 }
 
@@ -223,6 +235,46 @@ p,h3,h5,#mineCNaccuracy,#vatEstimates, #dutyEstimates, #totalClearance, .tag, a,
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+#mineCNaccuracy{
+  border: 0.7px solid grey;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 350px;
+  margin-bottom: 10px;
+}
+
+#vatEstimates{
+  border: 0.7px solid grey;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+
+#dutyEstimates{
+  border: 0.7px solid grey;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
+}
+
+#totalClearance{
+  border: 0.7px solid grey;
+  background-color: #e7e7e7;
+  color: black;
+  border-radius: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 hr {width: 1000px;margin-left: auto;margin-right: auto;height: 5px;background-color:#708090; border-radius: 10px;}
 
 
@@ -233,7 +285,7 @@ ul{
   z-index: 5;
 }
 
-#menu{position:relative;  transform: translate(50%, -20%); }
+#menu{position:relative;  transform: translate(50%, -50%); }
 
 .child{z-index: 2;}
 .parent {display: block;position: relative;float: left;line-height: 30px;background-color: #708090;border-right:#CCC 1px solid;}

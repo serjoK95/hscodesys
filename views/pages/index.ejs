@@ -222,7 +222,7 @@
                     $('#container').show();
                     $('#miningStats').show();
                     $('.center').show(); /// Show Circle Percentages
-                }, 11500);
+                }, 5900);
         }
 
         $(document).ready(function(){
@@ -305,9 +305,9 @@
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/circle.css" />
     <div class="jumbotron">
-        <h3><center>Harmonized Commodity Description and Coding System Entity Allocation</center></h3>
+        <h3><center>Combined Nomenclature (CN) Mining of Harmonized System (HS) Codes</center></h3>
         <hr>
-        <center><p><b>HS Commodities: </b><%= data.hsCount%> objects and <%= data.hsCount * 5%> records | <b>CN Commodities: </b><%= data.cnCount%> objects and <%= data.cnCount * 4%> records</p></center>
+        <center><p id="datasetsInfo"><b>HS Commodities: </b><%= data.hsCount%> objects and <%= data.hsCount * 5%> records | <b>CN Commodities: </b><%= data.cnCount%> objects and <%= data.cnCount * 4%> records</p></center>
         <h5>Search for a product</h5>
 
 
@@ -410,7 +410,7 @@
                         </ul>
                     </li>
                      <li ><a href="#" class="tag">Cordless Line Phone</a></li>
-                     <li ><a href="#" class="tag">Desk Lamp</a></li>
+                     <li ><a href="#" class="tag">Electric Desk</a></li>
                      <li ><a href="#" class="tag">Telephone Sets</a></li>
                     <li class="parent"><a href="#" class="tag">Paper<span class="expand">»</span></a>
                         <ul class="child">
@@ -717,7 +717,7 @@
 
                 <li class="parent"><a href="">Lawn and Garden</a>
                     <ul class="child">
-                         <li ><a href="#" class="tag">Lawn Mowers </a></li>
+                         <li ><a href="#" class="tag">Lawn Mowers</a></li>
                          <li ><a href="#" class="tag">Other Lawn Mowers</a></li>
                          <li ><a href="#" class="tag">Land-Roller Parts</a></li>
                          <li ><a href="#" class="tag">Garden Umbrellas</a></li>
