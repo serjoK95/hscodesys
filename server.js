@@ -794,7 +794,7 @@ switch(true){
         case (label == 'Gearboxes'):
             tagClickResponse =  '870840';
             break;
-        case (label == 'Drive Axles (Differential)'):
+        case (label == 'Drive Axles'):
             tagClickResponse =  '870850';
             break;
         case (label == 'Road Wheels'):
