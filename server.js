@@ -122,6 +122,8 @@ function getDescription(input){
     console.log(predicted_class);
     console.log(accuracy);
     queryResponse = predicted_class;
+
+    return input, queryResponse; // For Mocha/ Chai Testing in serverTest.js
     
 }
 
@@ -402,6 +404,8 @@ function getVAT(code, country){
     console.log(predicted_class);
     console.log(accuracy);
     memberStateResponse = predicted_class;
+
+    return code, country, memberStateResponse; // For Mocha/ Chai Testing in serverTest.js
 
 }
 
@@ -950,7 +954,7 @@ switch(true){
 	    case (label == 'Semimanufactured Gold'):
             tagClickResponse =  '710813';
             break;
-    	case (label == 'Unwrought  Platinum'):
+    	case (label == 'Unwrought Platinum'):
             tagClickResponse =  '711011';
             break;
 	    case (label == 'Powder Platinum'):
@@ -1566,3 +1570,8 @@ server.listen(process.env.PORT || 3000, function(){
 })
 
 
+////////////////////////////////////
+
+module.exports.getVAT = getVAT;
+
+module.exports.getDescription = getDescription;
