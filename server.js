@@ -155,6 +155,9 @@ function getSectionNote(input){
     console.log(predicted_class);
     console.log(accuracy);
     queryResponse2 = predicted_class;
+
+
+    return input, queryResponse2; // For Mocha/ Chai Testing in serverTest.js
 }
 
 // new function for CN EU CODES of Goods
@@ -248,6 +251,8 @@ function getCN(input){
     if (CNResponse == "10011100") {CNResponse = "Insufficient Dataset. Code not present in Combined Nomenclature by EUROSTAT."};
     cnMineAccuracy = "Mining Accuracy (0-1): " + accuRanged.toFixed(4); // Mining Accuracy 
     accuracyPercentage = parseInt(accuRanged.toFixed(2) * 100) ;
+
+    return input, CNResponse; // For Mocha/ Chai Testing in serverTest.js
 }
 //
 
@@ -1575,3 +1580,7 @@ server.listen(process.env.PORT || 3000, function(){
 module.exports.getVAT = getVAT;
 
 module.exports.getDescription = getDescription;
+
+module.exports.getSectionNote = getSectionNote;
+
+module.exports.getCN = getCN;
