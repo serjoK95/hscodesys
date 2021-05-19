@@ -222,7 +222,7 @@
                     $('#container').show();
                     $('#miningStats').show();
                     $('.center').show(); /// Show Circle Percentages
-                }, 9500);
+                }, 4800);
         }
 
         $(document).ready(function(){
@@ -1046,7 +1046,7 @@
                 <div id="miningStats">
                     <div id="mineCNaccuracy"><b style="color: #425761"><%= data.CNMineAccuracy %> = <%=data.minePercentage %>%</b></div>
                     <div id="vatEstimates">VAT amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.vatQuery/100)%> EUROS</div>
-                    <div id="dutyEstimates">Duty amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.dutyQuery/100)%> EUROS</div>
+                    <div id="dutyEstimates">Duty amount for 1000 EUROS worth of <div style="font-weight: 400; color: grey;"><%= data.subheadingQuery %></div> = <%=1000 * (data.dutyQuery/100).toFixed(4)%> EUROS</div>
                     <div id="totalClearance"><b style="color: #425761">Total Clearance for 1000 EUROS WORTH OF THIS GOOD = <%=1000 * (data.vatQuery/100) + 1000 * (data.dutyQuery/100) %> EUROS</b></div>
                 </div>
                 

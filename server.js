@@ -408,7 +408,7 @@ function getVAT(code, country){
 
     console.log(predicted_class);
     console.log(accuracy);
-    memberStateResponse = predicted_class.toFixed(2);
+    memberStateResponse = predicted_class;
 
     return code, country, memberStateResponse; // For Mocha/ Chai Testing in serverTest.js
 
@@ -420,8 +420,8 @@ server.post('/endpoint', function(req, res){
     res.end(); //
 
     sectionResponse = req.body.sectionP;
-    dutyResponse = (req.body.duty).toFixed(2);
-    mfnDutyResponse = (req.body.mfnAvgDuty).toFixed(2);
+    dutyResponse = req.body.duty;
+    mfnDutyResponse = req.body.mfnAvgDuty;
 
     if (req.body.input == ''){
         queryResponse = 'Please provide a valid HS Code with 6 digits.';
