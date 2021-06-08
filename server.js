@@ -167,52 +167,229 @@ var accuracyPercentage;
 function getCN(input){
     var test_data = [
         {
-            "CN2021":"10011100",
-            "chapter":"10",
-            "heading":"1001",
-            "subheading":"100111"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1604",
+            "subheading": "160420",
+            "CN2021": "16042050",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10011900",
-            "chapter":"10",
-            "heading":"1001",
-            "subheading":"100119"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1604",
+            "subheading": "160420",
+            "CN2021": "16042070",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10019110",
-            "chapter":"10",
-            "heading":"1001",
-            "subheading":"100191"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1604",
+            "subheading": "160420",
+            "CN2021": "16042090",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10019120",
-            "chapter":"10",
-            "heading":"1001",
-            "subheading":"100191"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1604",
+            "subheading": "160431",
+            "CN2021": "16043100",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10019190",
-            "chapter":"10",
-            "heading":"1001",
-            "subheading":"100191"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1604",
+            "subheading": "160432",
+            "CN2021": "16043200",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10019900",
-            "chapter":"10",
-            "heading":"1001",
-            "subheading":"100199"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160510",
+            "CN2021": "16051000",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10021000",
-            "chapter":"10",
-            "heading":"1002",
-            "subheading":"100210"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160521",
+            "CN2021": "16052110",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           },
           {
-            "CN2021":"10029000",
-            "chapter":"10",
-            "heading":"1002",
-            "subheading":"100290"
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160521",
+            "CN2021": "16052190",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160529",
+            "CN2021": "16052900",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160530",
+            "CN2021": "16053010",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160530",
+            "CN2021": "16053090",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160540",
+            "CN2021": "16054000",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160551",
+            "CN2021": "16055100",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160552",
+            "CN2021": "16055200",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160553",
+            "CN2021": "16055310",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160553",
+            "CN2021": "16055390",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160554",
+            "CN2021": "16055400",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160555",
+            "CN2021": "16055500",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160556",
+            "CN2021": "16055600",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160557",
+            "CN2021": "16055700",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160558",
+            "CN2021": "16055800",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160559",
+            "CN2021": "16055900",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160561",
+            "CN2021": "16056100",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160562",
+            "CN2021": "16056200",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
+          },
+          {
+            "nst": "4.2",
+            "nstEN": "Fish and fish products",
+            "chapter": "16",
+            "heading": "1605",
+            "subheading": "160563",
+            "CN2021": "16056300",
+            "CN2021TEXT": "Fish and crustaceans, molluscs and other aquatic invertebrates"
           }
     ];
 
@@ -242,15 +419,11 @@ function getCN(input){
     CNResponse = predicted_class;
 
     var randomizer = Math.random();
-    //console.log("random: "+randomizer);
-    //var accu = randomizer + accuracy;
-    var accuRanged = Math.min(Math.max((Math.random() + accuracy).toFixed(4), 0.1), 0.95);
-    //var accu = accuracy.toFixed(4) + randomizer.toFixed(4);
     
 
     if (CNResponse == "10011100") {CNResponse = "Insufficient Dataset. Code not present in Combined Nomenclature by EUROSTAT."};
-    cnMineAccuracy = "Mining Accuracy (0-1): " + accuRanged.toFixed(4); // Mining Accuracy 
-    accuracyPercentage = parseInt(accuRanged.toFixed(2) * 100) ;
+    cnMineAccuracy = "Mining Accuracy (0-1): " + accuracy;
+    accuracyPercentage = accuracy;
 
     return input, CNResponse; // For Mocha/ Chai Testing in serverTest.js
 }
